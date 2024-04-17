@@ -1,3 +1,7 @@
+/**
+ * expo-router default build code "npx create-expo-app --template tabs@50"
+ */
+
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
@@ -50,8 +54,12 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="createCharacter" options={{ headerShown: true, title: 'Character Creation' }} />
+        <Stack.Screen name="editViewCharacter" options={{ headerShown: true, title: 'Edit/View Character' }} />
+        <Stack.Screen name="viewCharacter" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
   );
