@@ -5,151 +5,157 @@
  * \brief   screen for viewing character information
  */
 
-import { Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import styles from '../styles/stylesheet';
 import Styles from '../styles/page-styles';
 import * as SQLite from 'expo-sqlite';
-import { Link, useLocalSearchParams } from 'expo-router';
-import Constants from 'expo-constants';
-import Item from '../components/item';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 
 export default function App() {
-    const [db, setDb] = useState(null);
-    const [updateItems, forceUpdate] = useState(0);
-    const [items, setItems] = useState([]);
+  const router = useRouter();
+  const [db, setDb] = useState(null);
+  const [updateItems, forceUpdate] = useState(0);
+  const [items, setItems] = useState([]);
 
-    // Charater stats variables
-    // const [name, setName] = useState(null);
-    // const [race, setRace] = useState(null);
-    // const [background, setBackground] = useState(null);
-    // const [charClass, setClass] = useState(null);
-    // const [multiClass, setMultiClass] = useState(null);
-    // const [skills, setSkills] = useState(null);
-    // const [feats, setFeats] = useState(null);
-    // const [strength, setStrength] = useState(null);
-    // const [dexterity, setDexterity] = useState(null);
-    // const [constitution, setConstitution] = useState(null);
-    // const [intelligence, setIntelligence] = useState(null);
-    // const [wisdom, setWisdom] = useState(null);
-    // const [charisma, setCharisma] = useState(null);
+  const { id } = useLocalSearchParams();
 
-    const { id } = useLocalSearchParams();
-  
-    // open database on launch
-    useEffect (() => {
-      let db = null;
-      if (Platform.OS === 'web') {
-        db = {
-          transaction: () => {
-            return {
-              executeSql: () => {},
-            }
+  // open database on launch
+  useEffect(() => {
+    let db = null;
+    if (Platform.OS === 'web') {
+      db = {
+        transaction: () => {
+          return {
+            executeSql: () => { },
           }
         }
-      } else {
-        db = SQLite.openDatabase('chars5.db');
       }
-      setDb(db);
-  
-      return () => db ? db.closeAsync : undefined;
-      
-    }, [])
-  
-    // update when the database changes [db, updatecharsheets]
-    useEffect (() => {
-      if (db) {
-        db.transaction(
-          (tx) => {
-            tx.executeSql('select * from charsheets where id =?',[id], 
-              (_, {rows : {_array}}) => {setItems(_array)});
-          }
-        )
-      }
-    }, [db, updateItems])
+    } else {
+      db = SQLite.openDatabase('chars5.db');
+    }
+    setDb(db);
+    return () => db ? db.closeAsync : undefined;
+  }, [])
 
-    const readRecord = () => {}
+  // update when the database changes [db, updatecharsheets]
+  useEffect(() => {
+    if (db) {
+      db.transaction(
+        (tx) => {
+          tx.executeSql('select * from charsheets where id =?', [id],
+            (_, { rows: { _array } }) => { setItems(_array) });
+        }
+      )
+    }
+  }, [db, updateItems])
 
 
-  
-  
-    return (
-      <View style={styles.container}>
+
+
+
+
+  return (
+    <View style={styles.container}>
+      <View style={{ flex: 0.3, flexDirection: 'row' }}>
+        <View style={{ justifyContent: 'left' }} >
+          <Pressable
+            style={Styles.button}
+            onPress={() => {
+              router.navigate({ pathname: '/' })
+              db ? db.closeAsync : undefined;
+            }}
+          >
+            <Text >Back to Home screen</Text>
+          </Pressable>
+        </View>
+        <View style={{ justifyContent: 'left' }} >
+          <Pressable
+            style={Styles.button}
+            onPress={() => {
+              router.navigate({ pathname: 'editViewCharacter' })
+              db ? db.closeAsync : undefined;
+            }}
+          >
+            <Text >Back to Sheet View</Text>
+          </Pressable>
+        </View>
+      </View>
       <Text style={styles.heading}>Character Sheet</Text>
       <View>
-            <Link href="/editCharacter" style={{marginBottom: 50}}>
-                <Pressable 
-                    style={Styles.button}
-                >
-                    <Text>Edit Character Sheet</Text>
-                </Pressable>
-            </Link>
-        </View>
-      <ScrollView style={styles.listArea}>
-      {items.map(
-                ({id, name, race, background, charClass, multiClass, skills, feats, strength, dexterity, constitution, intelligence, wisdom, charisma}) => {
-                    return (
-                        <View>
-                            <View style={styles.flexRow}>
-                                <Text>Character Name: {name}</Text>
-                                
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Race: {race}</Text>
-                                
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Background: {background}</Text>
-                                
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Class: {charClass}</Text>
-                                
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Multi-class: {multiClass}</Text>
-                                
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Skills (skill name followed by value separated by a comma): </Text>
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>{skills}</Text>
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Feats (feat name followed by value separated by a comma): </Text>
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>{feats}</Text>
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Strength: {strength}</Text>
-                                
-                            
-                                <Text>Dexterity: {dexterity}</Text>
-                                
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Constitution: {constitution}</Text>
-                                
-                            
-                                <Text>Intelligence: {intelligence}</Text>
-                                
-                            </View>
-                            <View style={styles.flexRow}>
-                                <Text>Wisdom: {wisdom}</Text>
-                                
-                            
-                                <Text>Charisma: {charisma}</Text>
-                                
-                            </View>
-                        </View>
-                    )
-                }
-        )}
-      
-       
-      </ScrollView>
+        <Link key={id} href={{ pathname: 'editCharacter', params: { id } }} asChild style={{ marginBottom: 50 }}>
+          <Pressable
+            style={Styles.button}
+          >
+            <Text>Edit Character Sheet</Text>
+          </Pressable>
+        </Link>
       </View>
-    );
-  }  
+      <ScrollView style={styles.listArea}>
+        {items.map(
+          ({ id, name, race, background, charClass, multiclass, skills, feats, strength, dexterity, constitution, intelligence, wisdom, charisma }) => {
+            return (
+              <View key={id}>
+                <View style={styles.flexRow} >
+                  <Text>Character Name: {name}</Text>
+
+                </View>
+                <View style={styles.flexRow} >
+                  <Text>Race: {race}</Text>
+
+                </View>
+                <View style={styles.flexRow} >
+                  <Text>Background: {background}</Text>
+
+                </View>
+                <View style={styles.flexRow} >
+                  <Text>Class: {charClass}</Text>
+
+                </View>
+                <View style={styles.flexRow} >
+                  <Text>Multi-class: {multiclass}</Text>
+
+                </View>
+                <View style={styles.flexRow}>
+                  <Text>Skills (skill name followed by value separated by a comma): </Text>
+                </View>
+                <View style={styles.flexRow} >
+                  <Text>{skills}</Text>
+                </View>
+                <View style={styles.flexRow}>
+                  <Text>Feats (feat name followed by value separated by a comma): </Text>
+                </View>
+                <View style={styles.flexRow} >
+                  <Text>{feats}</Text>
+                </View>
+                <View style={styles.flexRow}>
+                  <Text >Strength: {strength}</Text>
+
+
+                  <Text >Dexterity: {dexterity}</Text>
+
+                </View>
+                <View style={styles.flexRow} >
+                  <Text >Constitution: {constitution}</Text>
+
+
+                  <Text >Intelligence: {intelligence}</Text>
+
+                </View>
+                <View style={styles.flexRow} >
+                  <Text >Wisdom: {wisdom}</Text>
+
+
+                  <Text >Charisma: {charisma}</Text>
+
+                </View>
+              </View>
+            )
+          }
+        )}
+
+
+      </ScrollView>
+    </View>
+  );
+}  

@@ -16,10 +16,10 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
+// export const unstable_settings = {
+//   // Ensure that reloading on `/modal` keeps a back button present.
+//   initialRouteName: 'index',
+// };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -54,12 +54,12 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="createCharacter" options={{ headerShown: true, title: 'Character Creation' }} />
-        <Stack.Screen name="editViewCharacter" options={{ headerShown: true, title: 'Edit/View Character' }} />
-        <Stack.Screen name="viewCharacter" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="createCharacter" options={{ headerShown: false, title: 'Character Creation' }} />
+        <Stack.Screen name="editViewCharacter" options={{ headerShown: false, title: 'Edit/View Character' }}  />
+        <Stack.Screen name='deleteCharacter' options={{ headerShown: false, title: 'Delete Menu'}} />
+        <Stack.Screen name="viewCharacter" options={{ headerShown: false, title: 'View Character Sheet' }} />
+        <Stack.Screen name='deleteCharacterView' options={{ headerShown: false, title: 'Character Deletion Review' }} />
       </Stack>
     </ThemeProvider>
   );

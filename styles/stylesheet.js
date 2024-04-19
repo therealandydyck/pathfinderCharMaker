@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
   container: {
@@ -12,6 +12,7 @@ export default styles = StyleSheet.create({
     borderWidth: 2,
     borderStyle: 'solid',
     borerColor: 'black',
+    borderRadius: 10,
     backgroundColor: 'white',
     width: '100%',
     marginBottom: 15,
@@ -26,13 +27,14 @@ export default styles = StyleSheet.create({
     flex: 1,
     marginBottom: 10,
     minWidth: '100%',
+    borderRadius: 15,
   },
   sectionHeading: {
     fontSize: 18,
     marginBottom: 8,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
   },
