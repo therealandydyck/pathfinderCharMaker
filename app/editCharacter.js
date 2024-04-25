@@ -11,8 +11,6 @@ import styles from '../styles/stylesheet';
 import Styles from '../styles/page-styles';
 import * as SQLite from 'expo-sqlite';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import Constants from 'expo-constants';
-import Item from '../components/item';
 
 export default function App() {
   const router = useRouter();

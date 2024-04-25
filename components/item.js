@@ -7,11 +7,11 @@
 import { Pressable, Text } from "react-native";
 import styles from '../styles/stylesheet'
 
-export default Item = ({charId, name, race, charClass, onPress, onLongPress}) => {
+export default Item = ({ charId, name, race, charClass, onPress, onLongPress }) => {
 
 
     return (
-        <Pressable 
+        <Pressable
             style={styles.itemStyle}
             onPress={onPress}
         >

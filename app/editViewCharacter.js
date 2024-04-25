@@ -5,12 +5,12 @@
  * \brief   landing page to edit/view previously saved characters 
  */
 
-import { Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useCallback, useEffect, useState } from 'react';
+import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
 import styles from '../styles/stylesheet';
 import Styles from '../styles/page-styles';
 import * as SQLite from 'expo-sqlite';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import Item from '../components/item';
 
 
